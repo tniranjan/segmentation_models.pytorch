@@ -106,6 +106,9 @@ def get_encoder(name, in_channels=3, depth=5, weights=None, output_stride=32, **
     encoder = EncoderClass(**params)
 
     if weights is not None:
+        if kwargs.get("custom_weights_settings", None) is not None:
+            encoders[name]["pretrained_settings"][weights] = kwargs["custom_weights_settings"]
+        
         if weights not in encoders[name]["pretrained_settings"]:
             available_weights = list(encoders[name]["pretrained_settings"].keys())
             raise KeyError(
